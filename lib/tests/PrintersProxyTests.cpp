@@ -9,13 +9,9 @@ public:
   PrintersProxy unit;
 };
 
-TEST_F(PrintersProxyFixture, ShouldAddPrinter) {
+TEST_F(PrintersProxyFixture, ShouldAddPrinterAndRemove) {
   unit.AddPrinter(std::make_unique<PdfPrinter>());
   ASSERT_EQ(unit.GetNumOfPrinters(), 1);
-}
-
-TEST_F(PrintersProxyFixture, ShouldRemovePrinter) {
-  unit.AddPrinter(std::make_unique<PdfPrinter>());
   unit.RemovePrinter(0);
   ASSERT_EQ(unit.GetNumOfPrinters(), 0);
 }
@@ -32,7 +28,7 @@ TEST_F(PrintersProxyFixture,
 }
 
 TEST_F(PrintersProxyFixture, ShouldSetDefaultPrinter) {
-  unit.AddPrinter(std::make_unique<PdfPrinter>());
+  unit.AddPrinter(std::make_unique<LexmarkPrinter>());
   unit.AddPrinter(std::make_unique<PdfPrinter>());
   unit.SetDefaultPrinter(1);
   ASSERT_EQ(unit.GetIdxOfDefaultPrinter(), 1);
@@ -78,7 +74,7 @@ TEST_F(PrintersProxyFixture, ShouldReturnRightNumberOfPrintersAdded) {
   ASSERT_EQ(unit.GetNumOfPrinters(), 3);
 }
 
-TEST_F(PrintersProxyFixture, ShouldReturnNumOfDefaultPrinter) {
+TEST_F(PrintersProxyFixture, ShouldReturnIndexOfDefaultPrinter) {
   unit.AddPrinter(std::make_unique<PdfPrinter>());
   unit.SetDefaultPrinter(0);
   ASSERT_EQ(unit.GetIdxOfDefaultPrinter(), 0);
